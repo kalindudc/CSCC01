@@ -4,3 +4,10 @@ target/
 .project
 .settings/
 bin/
+*.iml
+crawler-data/
+crawler-data/*
+fetch.csv
+visit.csv
+urls.csv
+fileCrawlReport.txt 
