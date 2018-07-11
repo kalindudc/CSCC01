@@ -26,6 +26,7 @@ public class PageFetcherStatsTest {
 
   @Before
   public void setUp() throws Exception {
+    if (!new File(Constants.CRAWLER_STORAGE).exists()) new File(Constants.CRAWLER_STORAGE).mkdir();
     stats = new PageFetcherStats();
     urlsFetched = new HashMap<String, Integer>();
     stats.setUrlsFetched(urlsFetched);
