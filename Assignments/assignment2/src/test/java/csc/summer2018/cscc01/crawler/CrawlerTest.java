@@ -1,17 +1,13 @@
 package csc.summer2018.cscc01.crawler;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import csc.summer2018.cscc01.util.Constants;
 import csc.summer2018.cscc01.util.Shared;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
@@ -27,14 +23,14 @@ public class CrawlerTest {
     crawler = new Crawler();
     stats = new CrawlerStats();
     crawler.setStats(stats);
-    Shared.domains = new String[]{"http://test.com/"};
+    Shared.setSeeds(new String[]{"http://test.com/"});
   }
 
   @After
   public void tearDown() throws Exception {
     crawler = null;
     stats = null;
-    Shared.domains = new String[]{};
+    Shared.setSeeds(new String[]{});
   }
 
   @Test

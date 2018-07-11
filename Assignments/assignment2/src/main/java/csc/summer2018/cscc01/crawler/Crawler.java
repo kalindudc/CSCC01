@@ -22,17 +22,23 @@ public class Crawler extends WebCrawler {
     String href = url.getURL().toLowerCase();
     // ignore any images or css or js files
     boolean result = !Constants.FILTERS.matcher(href).matches();
+    Shared.incTotalUrl();
+    Shared.incContentTypes(referringPage.getContentType());
     // check if we are still in the correct domain
     if (result) {
-      for (String domain : Shared.domains) {
+      for (String domain : Shared.getSeeds()) {
         if (href.startsWith(domain)) {
-          stats.addValidUrl(href);
+          if (!stats.hasAttemptedUrl(href)) {
+            stats.addValidUrl(href);
+          }
           return true;
         }
       }
     }
     // log stats
-    stats.addInvalidUrl(href);
+    if (!stats.hasAttemptedUrl(href)) {
+      stats.addInvalidUrl(href);
+    }
 
     return false;
   }
@@ -41,12 +47,22 @@ public class Crawler extends WebCrawler {
   public void visit(Page page) {
     String url = page.getWebURL().getURL();
 
-    System.out.println("URL: " + url);
-    System.out.println("STATUS CODE: " + page.getStatusCode());
-
     if (page.getParseData() instanceof HtmlParseData) {
       HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
       Set<WebURL> links = htmlParseData.getOutgoingUrls();
+      double sizeInKb = ((double) page.getContentData().length) / ((double) Constants.BYTES_TO_KB);
+
+      if (sizeInKb < 1) {
+        Shared.incFileSizeLessThanOneKb();
+      } else if (sizeInKb < 10) {
+        Shared.incFileSizeOneKbToTenKb();
+      } else if (sizeInKb < 100) {
+        Shared.incFileSizeTenKbToOneHundredKb();
+      } else if (sizeInKb < 1024) {
+        Shared.incFileSizeOneHundredKbToOneMb();
+      } else {
+        Shared.incFileSizeLargerThanOneMb();
+      }
 
       VisitedUrl visitedUrl = new VisitedUrl(url,
           page.getContentData().length / Constants.BYTES_TO_KB, links.size(),

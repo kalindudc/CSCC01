@@ -39,7 +39,6 @@ public class PageFetcherStats {
   }
 
   public void writeUrlsFetched(String path) throws IOException {
-    StringWriter output = new StringWriter();
     FileWriter fileWriter = new FileWriter(path, true);
     BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
     PrintWriter out = new PrintWriter(bufferedWriter);
