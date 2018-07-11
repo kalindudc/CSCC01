@@ -10,7 +10,7 @@ public class Constants {
           + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
   public static final String CRAWLER_STORAGE = "crawler-data" + File.separator;
-  public static final int CRAWLER_NUMBER_OF_THREADS = 7;
+  public static final int CRAWLER_NUMBER_OF_THREADS = 8;
 
   public static final String FILE_DELIMETER_COMMA = ",";
   public static final String FILE_NEWLINE_SEPARATOR = "\n";
