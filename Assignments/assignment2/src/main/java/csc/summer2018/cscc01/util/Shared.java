@@ -1,6 +1,8 @@
 package csc.summer2018.cscc01.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Shared {
@@ -20,17 +22,17 @@ public class Shared {
 
   private static Map<Integer, Integer> statusCodes = new HashMap<Integer, Integer>();
 
-  private static String[] seeds;
+  private static List<String> seeds = new ArrayList<String>();
 
   private static int totalUrl = 0;
   private static int uniqueUrlValid = 0;
   private static int uniqueUrlInvalid = 0;
 
-  public static synchronized void setSeeds(String[] newDomains) {
+  public static synchronized void setSeeds(List<String> newDomains) {
     seeds = newDomains;
   }
 
-  public static synchronized String[] getSeeds() {
+  public static synchronized List<String> getSeeds() {
     return seeds;
   }
 

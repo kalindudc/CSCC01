@@ -6,6 +6,7 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import java.util.Arrays;
 import java.util.Set;
 
 public class Crawler extends WebCrawler {
@@ -19,7 +20,7 @@ public class Crawler extends WebCrawler {
 
   @Override
   public boolean shouldVisit(Page referringPage, WebURL url) {
-    String href = url.getURL().toLowerCase();
+    String href = url.getURL();
     // ignore any images or css or js files
     boolean result = !Constants.FILTERS.matcher(href).matches();
     Shared.incTotalUrl();
