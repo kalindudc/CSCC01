@@ -1,6 +1,7 @@
 package csc.summer2018.cscc01.crawler;
 
 import csc.summer2018.cscc01.util.Constants;
+import csc.summer2018.cscc01.util.Shared;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,12 +28,14 @@ public class CrawlerStats {
 
   public void addValidUrl(String url) {
     if (!hasAttemptedUrl(url)) {
+      Shared.incUniqueUrlValid();
       urlsAttempted.put(url, Constants.URL_OK);
     }
   }
 
   public void addInvalidUrl(String url) {
     if (!hasAttemptedUrl(url)) {
+      Shared.incUniqueUrlInvalid();
       urlsAttempted.put(url, Constants.URL_NOT_OK);
     }
   }
@@ -56,7 +59,6 @@ public class CrawlerStats {
   }
 
   public void writeUrlsAttempted(String path) throws IOException {
-    StringWriter output = new StringWriter();
     FileWriter fileWriter = new FileWriter(path, true);
     BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
     PrintWriter out = new PrintWriter(bufferedWriter);
@@ -72,7 +74,6 @@ public class CrawlerStats {
   }
 
   public void writeVisitedUrls(String path) throws IOException {
-    StringWriter output = new StringWriter();
     FileWriter fileWriter = new FileWriter(path, true);
     BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
     PrintWriter out = new PrintWriter(bufferedWriter);

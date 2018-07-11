@@ -1,5 +1,6 @@
 package csc.summer2018.cscc01.crawler;
 
+import csc.summer2018.cscc01.util.Shared;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.exceptions.PageBiggerThanMaxSizeException;
 import edu.uci.ics.crawler4j.fetcher.PageFetchResult;
@@ -19,7 +20,32 @@ public class CustomPageFetcher extends PageFetcher {
   @Override
   public PageFetchResult fetchPage(WebURL webUrl)
       throws InterruptedException, PageBiggerThanMaxSizeException, IOException {
-    PageFetchResult result = super.fetchPage(webUrl);
+
+    Shared.incFetchAttempted();
+    PageFetchResult result = null;
+
+    try {
+      result = super.fetchPage(webUrl);
+    }
+    catch (InterruptedException e) {
+      Shared.incFetchFailed();
+      throw e;
+    }
+    catch (PageBiggerThanMaxSizeException e) {
+      Shared.incFetchAborted();
+      throw e;
+    }
+    catch (IOException e) {
+      Shared.incFetchFailed();
+      throw e;
+    }
+
+    if (result.getStatusCode() >= 200 && result.getStatusCode() < 300) {
+      Shared.incFetchSuccessful();
+    } else {
+      Shared.incFetchFailed();
+    }
+    Shared.incStatusCodes(result.getStatusCode());
 
     stats.addUrlFetched(result.getFetchedUrl(), result.getStatusCode());
 
