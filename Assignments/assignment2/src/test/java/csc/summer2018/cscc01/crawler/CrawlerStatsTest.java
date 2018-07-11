@@ -25,6 +25,9 @@ public class CrawlerStatsTest {
 
   @Before
   public void setUp() throws Exception {
+
+    if (!new File(Constants.CRAWLER_STORAGE).exists()) new File(Constants.CRAWLER_STORAGE).mkdir();
+
     stats = new CrawlerStats();
     urlsAttempted = new HashMap<String, String>();
     visitStats = new ArrayList<VisitedUrl>();
