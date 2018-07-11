@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -87,8 +86,9 @@ public class App {
     */
     CrawlConfig config = new CrawlConfig();
     config.setCrawlStorageFolder(Constants.CRAWLER_STORAGE);
+    config.setIncludeHttpsPages(true);
     config.setMaxPagesToFetch(pages);
-    config.setPolitenessDelay(1000);
+    config.setPolitenessDelay(600);
     config.setMaxDepthOfCrawling(depth);
 
     PageFetcher pageFetcher = new CustomPageFetcher(config);
