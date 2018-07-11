@@ -8,6 +8,8 @@ import csc.summer2018.cscc01.util.Shared;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
@@ -23,14 +25,16 @@ public class CrawlerTest {
     crawler = new Crawler();
     stats = new CrawlerStats();
     crawler.setStats(stats);
-    Shared.setSeeds(new String[]{"http://test.com/"});
+    List<String> seeds = new ArrayList<String>();
+    seeds.add("http://test.com");
+    Shared.setSeeds(seeds);
   }
 
   @After
   public void tearDown() throws Exception {
     crawler = null;
     stats = null;
-    Shared.setSeeds(new String[]{});
+    Shared.setSeeds(new ArrayList<String>());
   }
 
   @Test

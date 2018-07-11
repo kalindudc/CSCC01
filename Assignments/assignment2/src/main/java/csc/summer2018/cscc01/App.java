@@ -19,7 +19,9 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -206,10 +208,23 @@ public class App {
     init();
 
     // get the list of do mains along with the depth size and the max number of pages
-    Shared.setSeeds(cmd.getOptionValue("seed").split(","));
+    String[] seeds = cmd.getOptionValue("seed").split(",");
     int depth = Integer.parseInt(cmd.getOptionValue("depth"));
     int pages = Integer.parseInt(cmd.getOptionValue("pages"));
     boolean generateReq = cmd.hasOption("req");
+
+    Set<String> seedSet = new HashSet<String>();
+
+    for(String seed: seeds) {
+      seedSet.add(seed);
+      if (seed.startsWith("http://")) {
+        seedSet.add("https://" + seed.substring(7));
+      }
+      else {
+        seedSet.add("http://" + seed.substring(8));
+      }
+    }
+    Shared.setSeeds(new ArrayList<String>(seedSet));
 
     startCrawler(pages, depth, generateReq);
     generateReport(cmd.getOptionValue("seed"), generateReq);
