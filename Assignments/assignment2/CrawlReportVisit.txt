@@ -35,3 +35,40 @@ Content Types:
 null: 1
 text/xml;charset=UTF-8: 1107
 text/html;charset=UTF-8: 14081
+Name: Kalindu De Costa
+UtorID: 1001392619
+News site(s) crawled: https://www.chicagotribune.com/
+
+Fetch Statistics
+================
+# fetches attempted: 20001
+# fetches succeeded: 1584
+# fetches aborted: 0
+# fetches failed: 18417
+
+Outgoing URLs:
+==============
+Total URLs extracted: 84786
+# unique URLs extracted: 31696
+# unique URLs within News site: 28374
+# unique URLs outside News site: 3322
+
+Status Codes:
+=============
+200 OK: 1584
+301 Moved Permanently: 40
+403 Forbidden: 18377
+
+File Sizes:
+===========
+< 1KB: 0
+1KB ~ <10KB: 5
+10KB ~ <100KB: 24
+100KB ~ <1MB: 1434
+>= 1MB: 0
+
+Content Types:
+==============
+null: 11
+text/xml;charset=UTF-8: 1907
+text/html;charset=UTF-8: 82868
