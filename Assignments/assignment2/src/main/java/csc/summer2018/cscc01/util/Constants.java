@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class Constants {
 
   public static final Pattern FILTERS = Pattern
-      .compile(".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf"
+      .compile(".*(\\.(css|js|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|"
           + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
   public static final String CRAWLER_STORAGE = "crawler-data" + File.separator;

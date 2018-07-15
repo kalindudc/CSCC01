@@ -192,7 +192,7 @@ public class Shared {
     if (statusCodes.containsKey(key)) {
       statusCodes.put(key, statusCodes.get(key) + 1);
     } else {
-      statusCodes.put(key, 0);
+      statusCodes.put(key, 1);
     }
   }
 
@@ -208,7 +208,7 @@ public class Shared {
     if (contentTypes.containsKey(key)) {
       contentTypes.put(key, contentTypes.get(key) + 1);
     } else {
-      contentTypes.put(key, 0);
+      contentTypes.put(key, 1);
     }
   }
 }
