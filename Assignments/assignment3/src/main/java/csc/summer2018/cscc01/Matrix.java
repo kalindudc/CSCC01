@@ -1,9 +1,12 @@
 package csc.summer2018.cscc01;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Matrix {
+
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0000");
 
     private int numColumns;
     private int numRows;
@@ -57,7 +60,7 @@ public class Matrix {
     private Matrix(Builder b) {
         this.numColumns = b.numColumns;
         this.numRows = b.numRows;
-        this.matrix = new Point[numColumns][numRows];
+        this.matrix = new Point[numRows][numColumns];
     }
 
     /**
@@ -100,15 +103,14 @@ public class Matrix {
      */
     public Matrix generateEuclideanDistanceMatrix() {
 
-        Matrix distanceMatrix = new Matrix.Builder().rows(numRows).columns(numColumns).build();
-        for (int x = 0; x < Math.ceil(numRows / 2); x++) {
-            for (int y = 0; y < Math.ceil(numRows / 2); y++) {
+        Matrix distanceMatrix = new Matrix.Builder().rows(numRows).columns(numRows).build();
+        for (int x = 0; x < numRows; x++) {
+            for (int y = 0; y < numRows; y++) {
                 int distancePower = 0;
                 for (int inner = 0; inner < numColumns; inner++) {
                     distancePower += Math.pow((matrix[x][inner].getValue() - matrix[y][inner].getValue()), 2);
                 }
                 distanceMatrix.addPoint(new Point(x, y, (float) (1/(1+Math.sqrt(distancePower)))));
-                distanceMatrix.addPoint(new Point(y, x, (float) (1/(1+Math.sqrt(distancePower)))));
             }
 
         }
@@ -137,9 +139,9 @@ public class Matrix {
         for (int i = 0; i < numRows; i++) {
             str += "[";
             for (int j = 0; j < numColumns; j++) {
-                str += this.matrix[i][j].getValue() + ",";
+                str += DECIMAL_FORMAT.format(this.matrix[i][j].getValue()) + ",";
             }
-            str.substring(0, str.length() - 1);
+            str = str.substring(0, str.length() - 1);
             str += "]\n";
         }
 
