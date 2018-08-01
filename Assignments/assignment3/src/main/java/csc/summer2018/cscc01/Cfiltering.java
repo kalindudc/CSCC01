@@ -3,10 +3,11 @@ package csc.summer2018.cscc01;
 import java.text.DecimalFormat;
 
 public class Cfiltering {
+
     // this is a 2d matrix i.e. user*movie
-    private int userMovieMatrix[][];
-    // this is a 2d matrix i.e. user*movie
-    private float userUserMatrix[][];
+    private Matrix userMovieMatrix;
+    // this is a 2d matrix i.e. user*user
+    private Matrix userUserMatrix;
     // create a decimal format instance
     // to get all the values of the userUserMatrix in 4 decimal places
     private DecimalFormat df4 = new DecimalFormat("0.0000");
@@ -16,15 +17,11 @@ public class Cfiltering {
      */
     public Cfiltering() {
         // this is 2d matrix of size 1*1
-        userMovieMatrix = new int[1][1];
+        userMovieMatrix = new Matrix.Builder().columns(1).rows(1).build();
         // this is 2d matrix of size 1*1
-        userUserMatrix = new float[1][1];
+        userUserMatrix = new Matrix.Builder().columns(1).rows(1).build();
     }
-    
-    /*
-     * TODO:COMPLETE THIS I.E. APPROPRIATELY CREATE THE userMovieMatrix AND
-     * userUserMatrix WITH CORRECT DIMENSIONS.
-     */
+
     /**
      * Constructs an object which contains two 2d matrices, one of size
      * users*movies which will store integer movie ratings and one of size
@@ -36,9 +33,9 @@ public class Cfiltering {
      */
     public Cfiltering(int numberOfUsers, int numberOfMovies) {
         // this is a 2d matrix of size numberOfUsers*numberOfMovies
-        userMovieMatrix = new int[numberOfUsers][numberOfMovies];
+        userMovieMatrix = new Matrix.Builder().columns(numberOfMovies).rows(numberOfUsers).build();
         // this is a 2d matrix of size numberOfUsers*numberOfUsers
-        userUserMatrix = new float[numberOfUsers][numberOfUsers];
+        userUserMatrix = new Matrix.Builder().columns(numberOfUsers).rows(numberOfUsers).build();
     }
     
     /**
@@ -53,115 +50,33 @@ public class Cfiltering {
      */
     public void populateUserMovieMatrix(int rowNumber, int columnNumber,
                                         int ratingValue) {
-        userMovieMatrix[rowNumber][columnNumber] = ratingValue;
+        userMovieMatrix.addPoint(new Point(rowNumber, columnNumber, ratingValue));
     }
-    
-    /*
-     * TODO:COMPLETE THIS YOU ARE FREE TO CHANGE THE FUNCTION SIGNATURE BUT DO NOT
-     * CHANGE THE FUNCTION NAME AND DO NOT MAKE THIS FUNCTION STATIC. Add/remove
-     *
-     * @param AND
-     *
-     * @return as required below.
-     */
+
     /**
      * Determines how similar each pair of users is based on their ratings. This
      * similarity value is represented with with a float value between 0 and 1,
      * where 1 is perfect/identical similarity. Stores these values in the
      * userUserMatrix.
-     *
-     * @param COMPLETE THIS IF NEEDED
-     * @param COMPLETE THIS IF NEEDED
-     * @return COMPLETE THIS IF NEEDED
      */
     public void calculateSimilarityScore() {
-        // store the number of users
-        int user_number = userMovieMatrix.length;
-        // initiate row_counter1 to loop through all the users
-        // in userMovieMatrix
-        for (int user_counter1 = 0; user_counter1 < user_number; user_counter1++) {
-            // initiate row_counter2 which is the user to be compared with
-            for (int user_counter2 =
-                 0; user_counter2 < user_number; user_counter2++) {
-                // create a variable to store
-                // the calculated square of the difference between ratings
-                double difference_square = 0;
-                // store the number of movies in a variable
-                int movie_number = userMovieMatrix[user_counter1].length;
-                // loop through all the rating values to get them
-                for (int movie_rating =
-                     0; movie_rating < movie_number; movie_rating++) {
-                    // if the user counts add up to less than the user_number
-                    if (user_counter1 + user_counter2 < user_number) {
-                        // get the rating from the two users being compared
-                        int rating1 = userMovieMatrix[user_counter1][movie_rating];
-                        int rating2 =
-                        userMovieMatrix[user_counter1 + user_counter2][movie_rating];
-                        // add up to the difference_square
-                        difference_square += Math.pow(rating1 - rating2, 2);
-                        // calculate the distance between the ratings of the users
-                        double distance = Math.sqrt(difference_square);
-                        // calculate the similarity score between them
-                        double similarity_score = 1 / (1 + distance);
-                        // cast the similarity_score to a float
-                        float float_similarity_score = (float) similarity_score;
-                        // store the similarity score on the userUserMatrix
-                        userUserMatrix[user_counter1][user_counter1 + user_counter2] =
-                        float_similarity_score;
-                        userUserMatrix[user_counter1 + user_counter2][user_counter1] =
-                        float_similarity_score;
-                    }
-                }
-            }
-        }
+        userUserMatrix = userMovieMatrix.generateEuclideanDistanceMatrix();
     }
-    
-    /*
-     * TODO:COMPLETE THIS YOU ARE FREE TO CHANGE THE FUNCTION SIGNATURE BUT DO NOT
-     * CHANGE THE FUNCTION NAME AND DO NOT MAKE THIS FUNCTION STATIC
-     */
+
     /**
      * Prints out the similarity scores of the userUserMatrix, with each row and
      * column representing each/single user and the cell position (i,j)
      * representing the similarity score between user i and user j.
-     *
-     * @param COMPLETE THIS IF NEEDED
-     * @param COMPLETE THIS IF NEEDED
-     * @return COMPLETE THIS IF NEEDED
      */
     
     public void printUserUserMatrix() {
-        // loop through all the rows
-        for (int row = 0; row < userUserMatrix.length; row++) {
-            // print out the opening square bracket
-            System.out.print('[');
-            // loop through all the columns
-            for (int col = 0; col < userUserMatrix[row].length; col++) {
-                // print out the similarity_score in 4 decimal places
-                System.out.print(df4.format(userUserMatrix[row][col]));
-                // print out commas after each value up until the last value
-                if (col != userUserMatrix[row].length - 1) {
-                    System.out.print(", ");
-                }
-            }
-            // print out the closing square bracket
-            System.out.print("]" + "\n");
-        }
+        System.out.println(userUserMatrix);
     }
-    
-    /*
-     * TODO:COMPLETE THIS YOU ARE FREE TO CHANGE THE FUNCTION SIGNATURE BUT DO NOT
-     * CHANGE THE FUNCTION NAME AND DO NOT MAKE THIS FUNCTION STATIC
-     */
+
     /**
      * This function finds and prints the most similar pair of users in the
      * userUserMatrix.
-     *
-     * @param COMPLETE THIS IF NEEDED
-     * @param COMPLETE THIS IF NEEDED
-     * @return COMPLETE THIS IF NEEDED
      */
-    
     public void findAndprintMostSimilarPairOfUsers() {
         // set the highest similarity score to 0 since 0 is the minimum score
         float highest_sim_score = 0;
