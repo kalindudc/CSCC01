@@ -1,17 +1,17 @@
-package csc.summer2018.cscc01;
+package csc.summer2018.cscc01.matrix;
 
-public class Point {
+public class Point<T> {
 
     private int x;
     private int y;
-    private float value;
+    private T value;
 
     /**
      * Create a new instance of a point
      * @param x the x coordinate of this point
      * @param y the y coordinate of this point
      */
-    public Point(int x, int y, float value) {
+    public Point(int x, int y, T value) {
         this.x = x;
         this.y = y;
         this.value = value;
@@ -53,7 +53,7 @@ public class Point {
      * Get the value of this point
      * @return the value of this point
      */
-    public float getValue () {
+    public T getValue () {
         return value;
     }
 
@@ -61,7 +61,7 @@ public class Point {
      * Change the value of this point
      * @param value the new value
      */
-    public void setValue (float value) {
+    public void setValue (T value) {
         this.value = value;
     }
 

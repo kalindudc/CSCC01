@@ -1,6 +1,10 @@
 package csc.summer2018.cscc01;
 
+import csc.summer2018.cscc01.matrix.Matrix;
+import csc.summer2018.cscc01.matrix.Point;
+
 import java.text.DecimalFormat;
+import java.util.List;
 
 public class Cfiltering {
 
@@ -17,9 +21,9 @@ public class Cfiltering {
      */
     public Cfiltering() {
         // this is 2d matrix of size 1*1
-        userMovieMatrix = new Matrix.Builder().columns(1).rows(1).build();
+        userMovieMatrix = new Matrix(1, 1);
         // this is 2d matrix of size 1*1
-        userUserMatrix = new Matrix.Builder().columns(1).rows(1).build();
+        userUserMatrix = new Matrix(1, 1);
     }
 
     /**
@@ -33,9 +37,9 @@ public class Cfiltering {
      */
     public Cfiltering(int numberOfUsers, int numberOfMovies) {
         // this is a 2d matrix of size numberOfUsers*numberOfMovies
-        userMovieMatrix = new Matrix.Builder().columns(numberOfMovies).rows(numberOfUsers).build();
+        userMovieMatrix = new Matrix(numberOfUsers, numberOfMovies);
         // this is a 2d matrix of size numberOfUsers*numberOfUsers
-        userUserMatrix = new Matrix.Builder().columns(numberOfUsers).rows(numberOfUsers).build();
+        userUserMatrix = new Matrix(numberOfUsers, numberOfUsers);
     }
     
     /**
@@ -78,35 +82,20 @@ public class Cfiltering {
      * userUserMatrix.
      */
     public void findAndprintMostSimilarPairOfUsers() {
-        // set the highest similarity score to 0 since 0 is the minimum score
-//        float highest_sim_score = 0;
-//        // initiate two variables to store the first two most similar users
-//        int similar_user1 = 0;
-//        int similar_user2 = 0;
-//        // loop through the userUserMatrix to access all the similarity scores
-//        for (int row = 0; row < userUserMatrix.length; row++) {
-//            for (int col = 0; col < userUserMatrix[row].length; col++) {
-//                // when the users are not the same
-//                if (row != col) {
-//                    // if the similarity_score is higher than the previous highest
-//                    // similarity score
-//                    if (userUserMatrix[row][col] > highest_sim_score) {
-//                        // set the similarity_score to the highest similarity score
-//                        highest_sim_score = userUserMatrix[row][col];
-//                        // save the first two most similar users
-//                        similar_user1 = row;
-//                        similar_user2 = col;
-//                    }
-//                }
-//            }
-//        }
-//        // print the first two users with the highest similarity score
-//        System.out.println(
-//                           "The most similar pairs of users from above userUserMatrix are: ");
-//        System.out.print(
-//                         "User" + (similar_user1 + 1) + " and " + "User" + (similar_user2 + 1));
-//        // loop through the userUserMatrix to check which other users have the
-//        // highest similarity scores
+        List<Point<Number>> highest = userUserMatrix.getMaxPoints();
+        // print the first two users with the highest similarity score
+        System.out.println(
+                           "The most similar pairs of users from above userUserMatrix are: ");
+        String users = "";
+        Float score = 0.0f;
+        for (int i = 0; i < highest.size(); i++) {
+            users += "User" + (highest.get(i).getX() + 1) + " and ";
+            score = highest.get(i).getValue().floatValue();
+        }
+        System.out.println(users.substring(0, (users.length() - 5)));
+        System.out.println("with similarity score of " + Matrix.DECIMAL_FORMAT.format(score));
+        // loop through the userUserMatrix to check which other users have the
+        // highest similarity scores
 //        for (int row = 0; row < userUserMatrix.length; row++) {
 //            for (int col = 0; col < userUserMatrix[row].length; col++) {
 //                if (userUserMatrix[row][col] == highest_sim_score) {
