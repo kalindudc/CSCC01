@@ -36,7 +36,17 @@ public class MatrixTest extends TestCase {
         }
 
         Matrix expected = new Matrix(2, 2);
-        System.out.println(expected);
-        assertEquals(expected, matrix.generateEuclideanDistanceMatrix());
+        for (int x = 0; x < 2; x++) {
+            for (int y = 0; y < 2; y++) {
+                int distancePower = 0;
+                for (int inner = 0; inner < 2; inner++) {
+                    distancePower += Math.pow((matrix.getPoint(x,inner).getValue().floatValue() - matrix.getPoint(y,inner).getValue().floatValue()), 2);
+                }
+                expected.addPoint(new Point(x, y, (float) (1/(1+Math.sqrt(distancePower)))));
+            }
+
+        }
+
+        assertTrue(expected.equals(matrix.generateEuclideanDistanceMatrix()));
     }
 }

@@ -109,7 +109,7 @@ public class Matrix {
 
         for (int x = 0; x < numRows; x++) {
             for (int y = 0; y < numColumns; y++) {
-                if (matrix[x][y].equals(other.getPoint(x,y))) return false;
+                if (!matrix[x][y].equals(other.getPoint(x,y))) return false;
             }
         }
         return true;
