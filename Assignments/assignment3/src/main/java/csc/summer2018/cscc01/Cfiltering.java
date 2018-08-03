@@ -1,5 +1,6 @@
 package csc.summer2018.cscc01;
 
+import csc.summer2018.cscc01.matrix.EucledianMatrix;
 import csc.summer2018.cscc01.matrix.Matrix;
 import csc.summer2018.cscc01.matrix.Point;
 
@@ -11,11 +12,11 @@ public class Cfiltering {
     // this is a 2d matrix i.e. user*movie
     private Matrix userMovieMatrix;
     // this is a 2d matrix i.e. user*user
-    private Matrix userUserMatrix;
+    private EucledianMatrix userUserMatrix;
     // create a decimal format instance
     // to get all the values of the userUserMatrix in 4 decimal places
     private DecimalFormat df4 = new DecimalFormat("0.0000");
-    
+
     /**
      * Default Constructor.
      */
@@ -23,7 +24,7 @@ public class Cfiltering {
         // this is 2d matrix of size 1*1
         userMovieMatrix = new Matrix(1, 1);
         // this is 2d matrix of size 1*1
-        userUserMatrix = new Matrix(1, 1);
+        userUserMatrix = new EucledianMatrix(1);
     }
 
     /**
@@ -39,9 +40,9 @@ public class Cfiltering {
         // this is a 2d matrix of size numberOfUsers*numberOfMovies
         userMovieMatrix = new Matrix(numberOfUsers, numberOfMovies);
         // this is a 2d matrix of size numberOfUsers*numberOfUsers
-        userUserMatrix = new Matrix(numberOfUsers, numberOfUsers);
+        userUserMatrix = new EucledianMatrix(numberOfUsers);
     }
-    
+
     /**
      * The purpose of this method is to populate the UserMovieMatrix. As input
      * parameters it takes in a rowNumber, columnNumber and a rating value. The
@@ -72,7 +73,7 @@ public class Cfiltering {
      * column representing each/single user and the cell position (i,j)
      * representing the similarity score between user i and user j.
      */
-    
+
     public void printUserUserMatrix() {
         System.out.println(userUserMatrix);
     }
@@ -89,101 +90,33 @@ public class Cfiltering {
         String users = "";
         Float score = 0.0f;
         for (int i = 0; i < highest.size(); i++) {
-            users += "User" + (highest.get(i).getX() + 1) + " and ";
-            score = highest.get(i).getValue().floatValue();
+            if (highest.get(i).getX() != highest.get(i).getY()) {
+                users += "User" + (highest.get(i).getX() + 1) + " and User" + (highest.get(i).getY() + 1) + "\n";
+                score = highest.get(i).getValue().floatValue();
+            }
         }
-        System.out.println(users.substring(0, (users.length() - 5)));
+        System.out.println(users.substring(0, (users.length() - 1)));
         System.out.println("with similarity score of " + Matrix.DECIMAL_FORMAT.format(score));
-        // loop through the userUserMatrix to check which other users have the
-        // highest similarity scores
-//        for (int row = 0; row < userUserMatrix.length; row++) {
-//            for (int col = 0; col < userUserMatrix[row].length; col++) {
-//                if (userUserMatrix[row][col] == highest_sim_score) {
-//                    if (row != col) {
-//                        // print the users in the upper triangle of the matrix
-//                        // and when they are not the first two most similar users
-//                        if ((col > row) && (row != similar_user1 || col != similar_user2)) {
-//                            // print a comma
-//                            System.out.print(",");
-//                            // print a newline
-//                            System.out.print("\n");
-//                            // print the other most similar pair of users
-//                            System.out
-//                            .print("User" + (row + 1) + " and " + "User" + (col + 1));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        // print the highest similarity score
-//        System.out.println(
-//                           "\n" + "with similarity score of " + df4.format(highest_sim_score));
     }
-    
-    /*
-     * TODO:COMPLETE THIS YOU ARE FREE TO CHANGE THE FUNCTION SIGNATURE BUT DO NOT
-     * CHANGE THE FUNCTION NAME AND DO NOT MAKE THIS FUNCTION STATIC
-     */
+
     /**
      * This function finds and prints the most dissimilar pair of users in the
      * userUserMatrix.
-     *
-     * @param COMPLETE THIS IF NEEDED
-     * @param COMPLETE THIS IF NEEDED
-     * @return COMPLETE THIS IF NEEDED
      */
     public void findAndprintMostDissimilarPairOfUsers() {
-        // set the lowest similarity score to 2 since 2 > 1
-//        float lowest_sim_score = 2;
-//        // initiate two variables to store the first two most dissimilar users
-//        int dissimilar_user1 = 0;
-//        int dissimilar_user2 = 0;
-//        // loop through the userUserMatrix to access all the similarity scores
-//        for (int row = 0; row < userUserMatrix.length; row++) {
-//            for (int col = 0; col < userUserMatrix[row].length; col++) {
-//                // when the users are not the same
-//                if (row != col) {
-//                    // if the similarity_score is lower than the previous lowest
-//                    // similarity score
-//                    if (userUserMatrix[row][col] < lowest_sim_score) {
-//                        // set the similarity_score to the lowest similarity score
-//                        lowest_sim_score = userUserMatrix[row][col];
-//                        // save the first two most similar users
-//                        dissimilar_user1 = row;
-//                        dissimilar_user2 = col;
-//                    }
-//                }
-//            }
-//        }
-//        // print the first two users with the lowest similarity score
-//        System.out.println(
-//                           "The most dissimilar pairs of users from above userUserMatrix are: ");
-//        System.out.print("User" + (dissimilar_user1 + 1) + " and " + "User"
-//                         + (dissimilar_user2 + 1));
-//        // loop through the userUserMatrix to check which other users have the
-//        // lowest similarity scores
-//        for (int row = 0; row < userUserMatrix.length; row++) {
-//            for (int col = 0; col < userUserMatrix[row].length; col++) {
-//                if (userUserMatrix[row][col] == lowest_sim_score) {
-//                    if (row != col) {
-//                        // print the users in the upper triangle of the matrix
-//                        // and when they are not the first two most dissimilar users
-//                        if ((col > row)
-//                            && (row != dissimilar_user1 || col != dissimilar_user2)) {
-//                            // print a comma
-//                            System.out.print(",");
-//                            // print a newline
-//                            System.out.print("\n");
-//                            // print the other most dissimilar pair of users
-//                            System.out
-//                            .print("User" + (row + 1) + " and " + "User" + (col + 1));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        // print the lowest similarity score
-//        System.out.println(
-//                           "\n" + "with similarity score of " + df4.format(lowest_sim_score));
+        List<Point<Number>> highest = userUserMatrix.getMinPoints();
+        // print the first two users with the highest similarity score
+        System.out.println(
+                "The most similar pairs of users from above userUserMatrix are: ");
+        String users = "";
+        Float score = 0.0f;
+        for (int i = 0; i < highest.size(); i++) {
+            if (highest.get(i).getX() != highest.get(i).getY()) {
+                users += "User" + (highest.get(i).getX() + 1) + " and User" + (highest.get(i).getY() + 1) + "\n";
+                score = highest.get(i).getValue().floatValue();
+            }
+        }
+        System.out.println(users.substring(0, (users.length() - 1)));
+        System.out.println("with similarity score of " + Matrix.DECIMAL_FORMAT.format(score));
     }
 }

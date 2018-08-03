@@ -69,7 +69,17 @@ public class Point<T> {
      * Return a string representation of this point
      * @return a string representation of this point
      */
+    @Override
     public String toString() {
         return "[(" + x + "," + y + "):" + value + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Point)) return false;
+
+        Point<T> other = (Point<T>) obj;
+
+        return x == other.getX() && y == other.getY() && value.equals(other.getValue());
     }
 }

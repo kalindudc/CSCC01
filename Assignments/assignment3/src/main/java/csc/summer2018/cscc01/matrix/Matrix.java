@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Matrix implements EuclideanMatrix {
+public class Matrix {
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0000");
 
@@ -65,8 +65,8 @@ public class Matrix implements EuclideanMatrix {
      * Generate a euclidean distance matrix of this matrix
      * @return a eucidean distance matrix of this matrinx row*row matrix
      */
-    public Matrix generateEuclideanDistanceMatrix() {
-        Matrix distanceMatrix = new Matrix(numRows, numRows);
+    public EucledianMatrix generateEuclideanDistanceMatrix() {
+        EucledianMatrix distanceMatrix = new EucledianMatrix(numRows);
         for (int x = 0; x < numRows; x++) {
             for (int y = 0; y < numRows; y++) {
                 int distancePower = 0;
@@ -80,45 +80,6 @@ public class Matrix implements EuclideanMatrix {
 
         return distanceMatrix;
     }
-
-    public List<Point<Number>> getMaxPoints() {
-        List<Point<Number>> res = new ArrayList<Point<Number>>();
-        Number current = matrix[0][1].getValue();
-        res.add(matrix[0][1]);
-        for (int x = 0; x < numRows; x++) {
-            for (int y = 0; y < numColumns; y++) {
-                if (current.floatValue() < matrix[x][y].getValue().floatValue() && x != y) {
-                    res.clear();
-                    res.add(matrix[x][y]);
-                    current = matrix[x][y].getValue();
-                }
-                else if (current.floatValue() == matrix[x][y].getValue().floatValue()) {
-                    res.add(matrix[x][y]);
-                }
-            }
-        }
-        return res;
-    }
-
-    public List<Point<Number>> getMinPoints() {
-        List<Point<Number>> res = new ArrayList<Point<Number>>();
-        Number current = matrix[0][1].getValue();
-        res.add(matrix[0][1]);
-        for (int x = 0; x < numRows; x++) {
-            for (int y = 0; y < numColumns; y++) {
-                if (current.floatValue() > matrix[x][y].getValue().floatValue() && x != y) {
-                    res.clear();
-                    res.add(matrix[x][y]);
-                    current = matrix[x][y].getValue();
-                }
-                else if (current.floatValue() == matrix[x][y].getValue().floatValue()) {
-                    res.add(matrix[x][y]);
-                }
-            }
-        }
-        return res;
-    }
-    
 
     /**
      * Return a string representation of this matrix
@@ -139,4 +100,18 @@ public class Matrix implements EuclideanMatrix {
         return str.substring(0, str.length() - 1);
     }
 
+    @Override
+    public boolean equals (Object o) {
+        if (!(o instanceof Matrix)) return false;
+
+        Matrix other = (Matrix) o;
+        if (other.getNumRows() != numRows || other.getNumColumns() != numColumns) return false;
+
+        for (int x = 0; x < numRows; x++) {
+            for (int y = 0; y < numColumns; y++) {
+                if (matrix[x][y].equals(other.getPoint(x,y))) return false;
+            }
+        }
+        return true;
+    }
 }
