@@ -1,8 +1,6 @@
 package csc.summer2018.cscc01.matrix;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Matrix {
 
@@ -65,8 +63,8 @@ public class Matrix {
      * Generate a euclidean distance matrix of this matrix
      * @return a eucidean distance matrix of this matrinx row*row matrix
      */
-    public EucledianMatrix generateEuclideanDistanceMatrix() {
-        EucledianMatrix distanceMatrix = new EucledianMatrix(numRows);
+    public EucledianSymmetricMatrix generateEuclideanDistanceMatrix() {
+        EucledianSymmetricMatrix distanceMatrix = new EucledianSymmetricMatrix(numRows);
         for (int x = 0; x < numRows; x++) {
             for (int y = 0; y < numRows; y++) {
                 int distancePower = 0;

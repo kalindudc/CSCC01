@@ -1,18 +1,19 @@
 package csc.summer2018.cscc01.matrix;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EucledianMatrix extends Matrix implements EuclideanMatrixInterface {
+public class EucledianSymmetricMatrix extends Matrix implements EuclideanSymmetricMatrixInterface {
 
-    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0000");
-
-    public EucledianMatrix (int numRows) {
+    /**
+     * Create an instance of a this symmetric matrix
+     * @param numRows the number of rows in this matrix, also equivalent to the number of columns
+     */
+    public EucledianSymmetricMatrix (int numRows) {
         super(numRows, numRows);
     }
 
-    public List<Point<Number>> getMaxPoints() {
+    public List<Point<Number>> getUpperTriangularMaxPoints () {
         List<Point<Number>> res = new ArrayList<Point<Number>>();
         Number current = Float.MIN_VALUE;
         for (int x = 0; x < super.getNumRows(); x++) {
@@ -30,7 +31,17 @@ public class EucledianMatrix extends Matrix implements EuclideanMatrixInterface 
         return res;
     }
 
-    public List<Point<Number>> getMinPoints() {
+    /**
+     * Add a given point symmetrically to (x,y) and (y,x)
+     * @param point the point to add
+     */
+    @Override
+    public void addPoint(Point<Number> point) {
+        super.addPoint(point);
+        super.addPoint(new Point<Number>(point.getY(), point.getX(), point.getValue()));
+    }
+
+    public List<Point<Number>> getUpperTriangularMinPoints () {
         List<Point<Number>> res = new ArrayList<Point<Number>>();
         Number current = Float.MAX_VALUE;
         for (int x = 0; x < super.getNumRows(); x++) {

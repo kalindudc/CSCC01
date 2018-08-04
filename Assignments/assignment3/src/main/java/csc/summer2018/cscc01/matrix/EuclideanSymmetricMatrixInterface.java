@@ -5,17 +5,17 @@ import java.util.List;
 /**
  * A square symmetric matrix
  */
-public interface EuclideanMatrixInterface {
+public interface EuclideanSymmetricMatrixInterface {
 
     /**
      * Return a list of points that are the maximum in this matrix
      * @return a list of points that are the maximum in this matrix excluding the diagonal
      */
-    public List<Point<Number>> getMaxPoints();
+    public List<Point<Number>> getUpperTriangularMaxPoints ();
 
     /**
      * Return a list of points that are the minimum in this matrix excluding the diagonal
      * @return a list of points that are the minimums in this matrix excluding the diagonal
      */
-    public List<Point<Number>> getMinPoints();
+    public List<Point<Number>> getUpperTriangularMinPoints ();
 }

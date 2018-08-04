@@ -1,9 +1,13 @@
 package csc.summer2018.cscc01;
+import csc.summer2018.cscc01.matrix.Matrix;
+import csc.summer2018.cscc01.matrix.Point;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Scanner;
 
 public class CfilteringDriver {
@@ -19,32 +23,20 @@ public class CfilteringDriver {
             Scanner in = new Scanner(System.in);
             System.out.println("Enter the name of input file? ");
             fileName = in.nextLine();
-
             Cfiltering cfObject = getCfilteringObject(fileName);
-
-            // TODO:1.) CALCULATE THE SIMILARITY SCORE BETWEEN USERS.
-            // call the calculateSimilarityScore method
-            // to calculate the similarity score between users
+            // calculate the similarity score between users
             cfObject.calculateSimilarityScore();
-            // TODO:2.) PRINT OUT THE userUserMatrix
-            // print two line breaks
             System.out.println("\n");
-            // call the printUserUserMatrix method to print the userUserMatrix
+            // print the userUserMatrix
             System.out.println("userUserMatrix is: ");
-            cfObject.printUserUserMatrix();
-            // TODO:3.) PRINT OUT THE MOST SIMILAR PAIRS OF USER AND THE MOST
-            // DISSIMILAR
-            // PAIR OF USERS.
+            System.out.println(cfObject.getUserUserMatrix());
+            System.out.println("\n");
+            //  print out the most similar pair of users
+            printMostSimilar(cfObject.getMostSimilarPairOfUsers());
             // print two line breaks
             System.out.println("\n");
-            // call the findAndprintMostSimilarPairOfUsers method
-            // to print out the most similar pair of users
-            cfObject.findAndprintMostSimilarPairOfUsers();
-            // print two line breaks
-            System.out.println("\n");
-            // call the findAndprintMostDissimilarPairOfUsers method
-            // to print out the most dissimilar pair of users
-            cfObject.findAndprintMostDissimilarPairOfUsers();
+            // print out the most dissimilar pair of users
+            printMostDissimilar(cfObject.getMostDisimilarPairOfUsers());
         } catch (FileNotFoundException e) {
             System.err.println("Do you have the input file in the root folder "
                                + "of your project?");
@@ -52,6 +44,44 @@ public class CfilteringDriver {
         } catch (IOException e) {
             System.err.print(e.getMessage());
         }
+    }
+
+    /**
+     * Give an list of similar points print them out
+     * @param similar the list of similar points
+     */
+    private static void printMostSimilar(List<Point<Number>> similar) {
+        // print the first two users with the highest similarity score
+        System.out.println(
+                "The most similar pairs of users from above userUserMatrix are: ");
+        String users = "";
+        Float score = 0.0f;
+        for (int i = 0; i < similar.size(); i++) {
+            users += "User" + (similar.get(i).getX() + 1) + " and User" + (similar.get(i).getY() + 1) + "\n";
+            score = similar.get(i).getValue().floatValue();
+        }
+        System.out.println(users.substring(0, (users.length() - 1)));
+        System.out.println("with similarity score of " + Matrix.DECIMAL_FORMAT.format(score));
+    }
+
+    /**
+     * Given a list of dissimilar points print them out
+     * @param dissimilar the list of dissimilar points
+     */
+    private static void printMostDissimilar(List<Point<Number>> dissimilar) {
+        // print the first two users with the highest similarity score
+        System.out.println(
+                "The most similar pairs of users from above userUserMatrix are: ");
+        String users = "";
+        Float score = 0.0f;
+        for (int i = 0; i < dissimilar.size(); i++) {
+            if (dissimilar.get(i).getX() != dissimilar.get(i).getY()) {
+                users += "User" + (dissimilar.get(i).getX() + 1) + " and User" + (dissimilar.get(i).getY() + 1) + "\n";
+                score = dissimilar.get(i).getValue().floatValue();
+            }
+        }
+        System.out.println(users.substring(0, (users.length() - 1)));
+        System.out.println("with similarity score of " + Matrix.DECIMAL_FORMAT.format(score));
     }
 
     /**

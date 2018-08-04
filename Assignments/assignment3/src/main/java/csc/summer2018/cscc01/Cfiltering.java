@@ -1,6 +1,6 @@
 package csc.summer2018.cscc01;
 
-import csc.summer2018.cscc01.matrix.EucledianMatrix;
+import csc.summer2018.cscc01.matrix.EucledianSymmetricMatrix;
 import csc.summer2018.cscc01.matrix.Matrix;
 import csc.summer2018.cscc01.matrix.Point;
 
@@ -12,7 +12,7 @@ public class Cfiltering {
     // this is a 2d matrix i.e. user*movie
     private Matrix userMovieMatrix;
     // this is a 2d matrix i.e. user*user
-    private EucledianMatrix userUserMatrix;
+    private EucledianSymmetricMatrix userUserMatrix;
     // create a decimal format instance
     // to get all the values of the userUserMatrix in 4 decimal places
     private DecimalFormat df4 = new DecimalFormat("0.0000");
@@ -24,7 +24,7 @@ public class Cfiltering {
         // this is 2d matrix of size 1*1
         userMovieMatrix = new Matrix(1, 1);
         // this is 2d matrix of size 1*1
-        userUserMatrix = new EucledianMatrix(1);
+        userUserMatrix = new EucledianSymmetricMatrix(1);
     }
 
     /**
@@ -40,7 +40,7 @@ public class Cfiltering {
         // this is a 2d matrix of size numberOfUsers*numberOfMovies
         userMovieMatrix = new Matrix(numberOfUsers, numberOfMovies);
         // this is a 2d matrix of size numberOfUsers*numberOfUsers
-        userUserMatrix = new EucledianMatrix(numberOfUsers);
+        userUserMatrix = new EucledianSymmetricMatrix(numberOfUsers);
     }
 
     /**
@@ -55,7 +55,7 @@ public class Cfiltering {
      */
     public void populateUserMovieMatrix(int rowNumber, int columnNumber,
                                         int ratingValue) {
-        userMovieMatrix.addPoint(new Point(rowNumber, columnNumber, ratingValue));
+        userMovieMatrix.addPoint(new Point<Number>(rowNumber, columnNumber, ratingValue));
     }
 
     /**
@@ -69,54 +69,26 @@ public class Cfiltering {
     }
 
     /**
-     * Prints out the similarity scores of the userUserMatrix, with each row and
-     * column representing each/single user and the cell position (i,j)
-     * representing the similarity score between user i and user j.
+     * Returns the user * user matrix
+     * @return the user * user matrix
      */
-
-    public void printUserUserMatrix() {
-        System.out.println(userUserMatrix);
+    public EucledianSymmetricMatrix getUserUserMatrix() {
+        return userUserMatrix;
     }
 
     /**
-     * This function finds and prints the most similar pair of users in the
-     * userUserMatrix.
+     * Get the most similar points in the user * user matrix
+     * @return the most similar points in the user * user matrix
      */
-    public void findAndprintMostSimilarPairOfUsers() {
-        List<Point<Number>> highest = userUserMatrix.getMaxPoints();
-        // print the first two users with the highest similarity score
-        System.out.println(
-                           "The most similar pairs of users from above userUserMatrix are: ");
-        String users = "";
-        Float score = 0.0f;
-        for (int i = 0; i < highest.size(); i++) {
-            if (highest.get(i).getX() != highest.get(i).getY()) {
-                users += "User" + (highest.get(i).getX() + 1) + " and User" + (highest.get(i).getY() + 1) + "\n";
-                score = highest.get(i).getValue().floatValue();
-            }
-        }
-        System.out.println(users.substring(0, (users.length() - 1)));
-        System.out.println("with similarity score of " + Matrix.DECIMAL_FORMAT.format(score));
+    public List<Point<Number>> getMostSimilarPairOfUsers() {
+        return userUserMatrix.getUpperTriangularMaxPoints();
     }
 
     /**
-     * This function finds and prints the most dissimilar pair of users in the
-     * userUserMatrix.
+     * Get the most dissimilar points in the user * user matrix
+     * @return the most dissimilar points in the user * user matrix
      */
-    public void findAndprintMostDissimilarPairOfUsers() {
-        List<Point<Number>> highest = userUserMatrix.getMinPoints();
-        // print the first two users with the highest similarity score
-        System.out.println(
-                "The most similar pairs of users from above userUserMatrix are: ");
-        String users = "";
-        Float score = 0.0f;
-        for (int i = 0; i < highest.size(); i++) {
-            if (highest.get(i).getX() != highest.get(i).getY()) {
-                users += "User" + (highest.get(i).getX() + 1) + " and User" + (highest.get(i).getY() + 1) + "\n";
-                score = highest.get(i).getValue().floatValue();
-            }
-        }
-        System.out.println(users.substring(0, (users.length() - 1)));
-        System.out.println("with similarity score of " + Matrix.DECIMAL_FORMAT.format(score));
+    public List<Point<Number>> getMostDisimilarPairOfUsers() {
+        return userUserMatrix.getUpperTriangularMinPoints();
     }
 }
