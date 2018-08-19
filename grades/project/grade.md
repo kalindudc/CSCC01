@@ -20,7 +20,7 @@ If the number is positive your mark was increased, negative decreased, and adjus
 &nbsp;&nbsp;&nbsp;&nbsp;	Demo #3:&nbsp;&nbsp; 10/10\
 &nbsp;&nbsp;&nbsp;&nbsp;	Final Demo:&nbsp;&nbsp;102/100\
 &nbsp;&nbsp;&nbsp;&nbsp;	Video:&nbsp;&nbsp;5/5\
-&nbsp;&nbsp; __Mark Adjustment<sup>1</sup>:__ 8.5
+&nbsp;&nbsp; __Mark Adjustment<sup>1</sup>:__ 4.99
 
 __Final Grade:__ 104.79%
 ## TA Comments
